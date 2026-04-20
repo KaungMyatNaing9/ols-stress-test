@@ -138,9 +138,11 @@ HC3 does **not** change the point estimate $\hat{\beta}_1$ — it only changes t
 The **paired bootstrap** resamples entire $(X_i, Y_i)$ pairs with replacement, preserving any dependence between $X$ and the error variance:
 
 For $b = 1, \ldots, B$:
-1. Draw indices $\{i_1^*, \ldots, i_n^*\}$ uniformly with replacement from $\{1, \ldots, n\}$
-2. Form bootstrap sample: $(X_{i_j^*}, Y_{i_j^*})$ for $j = 1, \ldots, n$
-3. Refit OLS: $\hat{\beta}_1^{(b)} = (\mathbf{X}^{*\prime}\mathbf{X}^*)^{-1}\mathbf{X}^{*\prime}\mathbf{Y}^*$
+1. Draw `n` indices uniformly at random **with replacement** from `{1, …, n}`
+2. Form the bootstrap dataset from the selected rows: `(X*ⱼ, Y*ⱼ)` for `j = 1, …, n`
+3. Refit OLS on the bootstrap sample to get **β̂₁\*(b)**:</p>
+
+$$\hat{\beta}_1^{(b)} = (\mathbf{X}^{*\prime}\mathbf{X}^*)^{-1}\mathbf{X}^{*\prime}\mathbf{Y}^*$$
 
 The **percentile CI** uses the empirical quantiles of the bootstrap distribution directly:
 

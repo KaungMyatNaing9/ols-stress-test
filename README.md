@@ -127,7 +127,7 @@ The HC3 (MacKinnon-White, 1985) sandwich estimator corrects for heteroskedastici
 
 $$\widehat{\text{Var}}_{\text{HC3}}(\hat{\boldsymbol{\beta}}) = (\mathbf{X}'\mathbf{X})^{-1} \left[\sum_{i=1}^n \frac{\hat{\varepsilon}_i^2}{(1-h_{ii})^2} \mathbf{x}_i \mathbf{x}_i' \right] (\mathbf{X}'\mathbf{X})^{-1}$$
 
-where $$\hat{\varepsilon}_i = Y_i - \hat{Y}_i$$ are OLS residuals and $$h_{ii} = \mathbf{x}_i'(\mathbf{X}'\mathbf{X})^{-1}\mathbf{x}_i$$ is the leverage of observation $$i$$.
+where **ε̂ᵢ = Yᵢ − Ŷᵢ** are OLS residuals and **hᵢᵢ = xᵢᵀ(XᵀX)⁻¹xᵢ** is the leverage of observation `i`.
 
 The key insight is the $\frac{1}{(1-h_{ii})^2}$ leverage correction. High-leverage points (influential observations) receive an inflated residual, which prevents the SE from being artificially small when a few data points have disproportionate influence. This makes HC3 superior to HC0 and HC1 in small samples.
 

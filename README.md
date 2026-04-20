@@ -239,6 +239,14 @@ Cells are parallelized with `joblib`. Each cell gets a **deterministic seed** co
 
 ## Results and Interpretation
 
+The heatmap below gives an at-a-glance overview of every $(DGP \times method \times n)$ combination. Red cells are dangerous (undercoverage — the CI is too narrow and misleads you). Blue cells are conservative (overcoverage — the CI is wider than needed). White is ideal.
+
+![Coverage Deviation Heatmap](figures/06_coverage_heatmap.png)
+
+The single most visible pattern: the entire OLS row for **Heteroskedastic** is deep red across all $n$, while every other DGP is near-white for OLS. This tells the whole story before reading a single number.
+
+---
+
 ### Finding 1: Heteroskedasticity Permanently Breaks OLS
 
 This is the study's most striking result. Standard OLS under heteroskedastic errors achieves **77% coverage** — regardless of sample size.
@@ -258,6 +266,14 @@ The Type I error consequences are equally severe. OLS rejects a true null at **2
 HC3 and the percentile bootstrap both recover well, approaching nominal 95% coverage by $n = 250$. **HC3 is the most reliable correction here**, achieving 95.0% at $n = 500$.
 
 **The bootstrap pivotal CI performs unexpectedly poorly** under heteroskedasticity at small $n$ (85.7% coverage at $n=30$). This is because pivotal CI assumes the bootstrap distribution is an accurate replica of the sampling distribution — but with only $n=30$ points and high leverage observations, individual bootstrap resamples can have wildly different design matrices, making the pivotal reflection unstable.
+
+![Coverage Probability](figures/01_coverage_probability.png)
+
+The coverage plot makes the heteroskedastic failure unmistakable: the red OLS line sits flat at ~0.77 across all five panels for that DGP, while every other method and DGP trends toward 0.95. Error bars are $\pm 1.96 \times \text{MC-SE}$, confirming the OLS gap is not Monte Carlo noise.
+
+![Type I Error Rate](figures/02_type1_error.png)
+
+The Type I error plot is the mirror image of coverage: OLS under heteroskedasticity sits at ~0.22, more than four times the nominal 5% red line. All other DGP–method combinations hug the dashed line closely by $n=100$.
 
 ### Finding 2: Heavy Tails Have Moderate and Diminishing Impact
 
@@ -340,6 +356,18 @@ With $\beta_1 = 0.5$ and $X \sim \mathcal{N}(0,1)$:
 The **heteroskedastic DGP shows the highest OLS power** — but this is misleading. OLS rejects frequently because it underestimates the SE, not because the test is well-powered. Type I error is 21%, so the high rejection rate includes many false positives.
 
 The **outlier DGP has the lowest power** (51.6% at $n=30$). The 5% contamination inflates $s^2$, which widens CIs and makes the test conservative. Power only recovers around $n=250$.
+
+![Power Curves](figures/03_power_curves.png)
+
+All methods converge to 100% power by $n=250$ except under the outlier DGP, where the slow rise is visible. The heteroskedastic panel shows OLS (red) appearing most powerful — this is the false power from inflated Type I error, not genuine sensitivity.
+
+![CI Width](figures/04_ci_width.png)
+
+CI widths decrease as $O(n^{-1/2})$ for all methods. Under heteroskedasticity, OLS CIs are **narrower** than HC3 and bootstrap — the very reason OLS undercovers. HC3 adds appropriate width to account for the non-constant variance. Under the outlier DGP, all CIs are wider at small $n$ due to the inflated variance from the 5% contamination cluster.
+
+![Bias and MSE](figures/05_bias_mse.png)
+
+OLS bias is negligible across all DGPs and sample sizes (all lines hug zero), confirming OLS remains an unbiased estimator even when its inference is miscalibrated. MSE is highest for the outlier DGP at $n=30$ (≈ 0.083 vs. ≈ 0.037 for normal), reflecting the additional variance from extreme observations.
 
 ---
 

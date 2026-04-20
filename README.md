@@ -142,7 +142,7 @@ For $b = 1, \ldots, B$:
 2. Form the bootstrap dataset from the selected rows: `(X*ⱼ, Y*ⱼ)` for `j = 1, …, n`
 3. Refit OLS on the bootstrap sample to get **β̂₁\*(b)**:</p>
 
-$$\hat{\beta}_1^{(b)} = (\mathbf{X}^{*\prime}\mathbf{X}^*)^{-1}\mathbf{X}^{*\prime}\mathbf{Y}^*$$
+$$\hat{\beta}_1^{(b)} = (\mathbf{X}_b^\top \mathbf{X}_b)^{-1}\mathbf{X}_b^\top \mathbf{Y}_b$$
 
 The **percentile CI** uses the empirical quantiles of the bootstrap distribution directly:
 
